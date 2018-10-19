@@ -11,11 +11,6 @@ import {
 
 function urlForQueryAndPage(value) {
   const data = {
-    // ll : lat+","+long,
-    // client_id: 'JWS40E0U0TU2FF4UHROYYHVTJOV04B2BCZEOZDE1KPPDD5EO',
-    // client_secret: '4WACTNEPVY5AGBCYTFSZIHYCXQ43V53WMUVAJVYL5DLCBRU0',
-    // radius : '500',
-    // limit : '50',
     key:'AIzaSyBIhGaLJ_2wWY0jeO6GXlq4IunT9oN6-nI',
     input: value,
   };

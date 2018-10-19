@@ -15,7 +15,6 @@ function urlForQueryAndPage(value) {
     input: value,
   };
   const querystring = Object.keys(data).map(key => key + '=' + encodeURIComponent(data[key])).join('&');
-
   return 'https://maps.googleapis.com/maps/api/place/queryautocomplete/json?' + querystring;
 }
 class AutocompleteSimple extends Component {
@@ -46,6 +45,8 @@ class AutocompleteSimple extends Component {
 
   };
   _handleResponse(status, predictions){
+    console.log(typeof status);
+    console.log(predictions);
     if(status === "OK"){
       this.setState({ location : predictions })
     }
@@ -58,24 +59,33 @@ class AutocompleteSimple extends Component {
     const query = urlForQueryAndPage(this.state.searchString);
     this._executeQuery(query);
   }
+  _onPress(data) {
+    console.log(this.state.searchString);
+    this.setState({ searchString: data.structured_formatting.main_text})
+    console.log(this.state.searchString);
+  }
   _displayInfo(){
     const {location} = this.state;
-    view = [];
+    // view = [];
     if(location.length === 0 ){
       return;
     }
     else {
+      view = [];
       location.forEach(function(item, index){
         console.log(item);
-      view.push(
-        <TouchableOpacity onPress={()=> this.setState({searchString : item.structured_formatting.main_text })}>
-          <Text>
-            {item.structured_formatting.main_text}
-          </Text>
-        </TouchableOpacity>
+        view.push(
+          <TouchableOpacity
+          key={item.id}
+          style={styles.touch}
+          onPress={()=>{this._onPress}}>
+            <Text >
+              {item.structured_formatting.main_text}
+            </Text>
+          </TouchableOpacity>
       );
     })
-      return view
+      return view;
     }
   }
   render() {
@@ -114,6 +124,18 @@ const styles = StyleSheet.create({
   itemText: {
     fontSize: 15,
     margin: 2,
+  },
+  searchInput:{
+    backgroundColor: "#dfe6e9",
+    width: "100%",
+    borderWidth: 1,
+    borderRadius: 5
+  },
+  touch:{
+    borderWidth: 1,
+    borderRadius: 5,
+    width: '100%',
+    height: 20
   },
   descriptionContainer: {
     // `backgroundColor` needs to be set otherwise the
